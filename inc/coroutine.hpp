@@ -40,7 +40,8 @@ private:
 };
 
 struct LoggableThreadState : IThreadState {
-  LoggableThreadState(logger::ThreadSafeLoggerPtr pLogger, IThreadStatePtr pThreadState)
+  LoggableThreadState(logger::ThreadSafeLoggerPtr pLogger,
+                      IThreadStatePtr pThreadState)
       : m_pLogger{pLogger}, m_pThreadState{pThreadState} {}
 
   void Pause() {
@@ -70,8 +71,8 @@ public:
   template <typename F, typename... Args>
   Coroutine(F &&routine, Args &&...args)
       : m_routine(std::forward<F>(routine)),
-        m_args(std::forward<Args>(args)...),
-        m_pThreadState{std::get<0>(m_args)} {}
+        m_args(std::forward<Args>(args)...), m_pThreadState{
+                                                 std::get<0>(m_args)} {}
 
   Coroutine(const Coroutine &) = default;
   Coroutine &operator=(const Coroutine &) = default;
@@ -106,8 +107,8 @@ private:
 };
 
 template <typename F, typename... Args>
-Coroutine<Args...> make_coroutine(F&& f, Args&&... args) {
-	return Coroutine<Args...>(std::forward<F>(f), std::forward<Args>(args)...);
+Coroutine<Args...> make_coroutine(F &&f, Args &&...args) {
+  return Coroutine<Args...>(std::forward<F>(f), std::forward<Args>(args)...);
 }
 
-} // namespace Concurrency
+} // namespace concurrency
