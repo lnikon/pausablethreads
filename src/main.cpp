@@ -42,18 +42,17 @@ int main() {
   std::thread slave(std::ref(coro2));
 
   logger->Log("Main before coro1 resume");
-  // coro1.Resume();
+  coro1.Resume();
   logger->Log("Main after coro1 resume");
   logger->Log("Main before coro2 resume");
   coro2.Resume();
   logger->Log("Main after second resume");
 
   coro2.Resume();
-  // coro1.Resume();
+  coro1.Resume();
 
   slave.join();
   worker.join();
-  //worker.detach();
 
   return 0;
 }
